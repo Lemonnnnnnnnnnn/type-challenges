@@ -20,7 +20,15 @@
 
 /* _____________ Your Code Here _____________ */
 
-type MyExclude<T, U> = any
+// 如果给条件类型传入一个联合类型 (union Type): 则条件类型会应用到每个联合类型中的元素  
+//  https://www.typescriptlang.org/docs/handbook/2/conditional-types.html#distributive-conditional-types
+type MyExclude<T, U> = T extends U ? never : T
+
+// 示例
+type A = MyExclude<'a' | 'b' | 'c', 'a'>
+// MyExclude<'a' , 'a'> | MyExclude<'b' , 'a'> | MyExclude<'c' , 'a'>
+// = never | 'b' | 'c'
+// = 'b' | 'c'
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
