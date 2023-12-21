@@ -20,7 +20,7 @@
 
 /* _____________ Your Code Here _____________ */
 
-// 如果给条件类型传入一个联合类型 (union Type): 则条件类型会应用到每个联合类型中的元素  
+// 如果给条件类型传入一个联合类型 (union Type): 则条件类型会应用到每个联合类型中的元素
 //  https://www.typescriptlang.org/docs/handbook/2/conditional-types.html#distributive-conditional-types
 type MyExclude<T, U> = T extends U ? never : T
 
