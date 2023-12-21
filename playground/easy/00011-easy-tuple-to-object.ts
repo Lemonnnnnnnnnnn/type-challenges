@@ -24,9 +24,13 @@ type TupleToObject<T extends readonly any[]> = {
   [P in T[number]]: P
 }
 
-// [number] 和 [0] 和 ['0'] 和 [1] 一样，都会取所有数组元素的联合类型
-const a = [1, '123']
-type B = typeof a['0']
+// typeof 会取所有数组元素的联合类型，在其上 [number] 和 [0] 和 ['0'] 和 [1] 表现一致
+const typeofArr = [1, '123']
+type typeofType = typeof typeofArr['0'] // string | number
+
+// 在字面量类型的例子中则有所不同
+type CommonArr = [1, '123']
+type CommonPartialArr = CommonArr[0] // 1
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
