@@ -18,7 +18,21 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Includes<T extends readonly any[], U> = any
+/**
+ * @think
+ * use Equal + recursive to compare if U Equal Array Element one by one.
+ * if pass, return true.
+ * otherwise recursive check remain elements.
+ * if reach end, Rests equal undefined and T extends [infer First, ...infer Rests] return false
+ * @todo
+ * implement my Equal utils
+ *
+ */
+type Includes<T extends readonly any[], U> = T extends [infer First, ...infer Rests]
+  ? Equal<First, U> extends true
+    ? true
+    : Includes<Rests, U>
+  : false
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
