@@ -34,7 +34,20 @@
 
 /* _____________ Your Code Here _____________ */
 
-type MyReadonly2<T, K> = any
+type MyPick<T, K extends keyof T> = {
+  [P in K]: T[P]
+}
+
+type MyReadonly<T extends {}> = {
+  readonly [P in keyof T]: T[P]
+}
+
+type MyExclude<T, K> = T extends K ? never : T
+
+type MyOmit<T, K extends keyof T> = MyPick<T, MyExclude<keyof T, K>>
+
+// 如果第二个值不存在，则给他赋值为 title | description | completed，结果等于选择所有属性并给其添加 Readonly
+type MyReadonly2<T, K extends keyof T = keyof T> = MyOmit<T, K> & MyReadonly<MyPick<T, K>>
 
 /* _____________ Test Cases _____________ */
 import type { Alike, Expect } from '@type-challenges/utils'
@@ -43,7 +56,7 @@ type cases = [
   Expect<Alike<MyReadonly2<Todo1>, Readonly<Todo1>>>,
   Expect<Alike<MyReadonly2<Todo1, 'title' | 'description'>, Expected>>,
   Expect<Alike<MyReadonly2<Todo2, 'title' | 'description'>, Expected>>,
-  Expect<Alike<MyReadonly2<Todo2, 'description' >, Expected>>,
+  Expect<Alike<MyReadonly2<Todo2, 'description'>, Expected>>,
 ]
 
 // @ts-expect-error
