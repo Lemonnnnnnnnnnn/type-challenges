@@ -38,10 +38,18 @@
 */
 
 /* _____________ Your Code Here _____________ */
-
-type Chainable = {
-  option(key: string, value: any): any
-  get(): any
+/**
+ * @基本思路
+ * - 通过 Chainable<T> 将每一层构造器的结果对象向下传递，最终传递到 get 方法上
+ * - 通过 option<K,V>(K,V) 拿到给 option 传入的键值对，通过 T & Record<K,V> 创建出每一层的构造结果
+ * - 如果 K 在 keyof T 之中（T是上一层传入本层的上层构造结果），则不允许重复赋值构造器，让 key 返回 never 来抛错
+ * - 如果发生 Key 值重复，Omit 方法可以使本层的值覆盖上一层的值
+ */
+type Chainable<T = {}> = {
+  option<K extends string, V>(key: K extends keyof T
+    ? never
+    : K, value: V): Chainable<Omit<T, K> & Record<K, V>>
+  get(): T
 }
 
 /* _____________ Test Cases _____________ */
