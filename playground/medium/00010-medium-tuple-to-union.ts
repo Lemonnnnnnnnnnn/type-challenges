@@ -20,7 +20,8 @@
 
 /* _____________ Your Code Here _____________ */
 
-type TupleToUnion<T> = any
+// 参考问题11
+type TupleToUnion<T extends any[]> = T[number]
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
