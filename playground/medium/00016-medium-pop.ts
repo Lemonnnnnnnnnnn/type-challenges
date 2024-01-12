@@ -26,7 +26,13 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Pop<T extends any[]> = any
+type Pop<T extends any[]> = T extends [... infer P, any] ? P : []
+
+type Push<T extends any[], U> = [...T, U]
+
+type Shift<T extends any[]> = T extends [any, ...infer P] ? P : never
+
+type UnShift<T extends any[], U> = [U, ...T]
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
@@ -35,6 +41,9 @@ type cases = [
   Expect<Equal<Pop<[3, 2, 1]>, [3, 2]>>,
   Expect<Equal<Pop<['a', 'b', 'c', 'd']>, ['a', 'b', 'c']>>,
   Expect<Equal<Pop<[]>, []>>,
+  Expect<Equal<Push<[3, 2, 1], 4>, [3, 2, 1, 4]>>,
+  Expect<Equal<Shift<[3, 2, 1]>, [2, 1]>>,
+  Expect<Equal<UnShift<[3, 2, 1], 4>, [4, 3, 2, 1]>>,
 ]
 
 /* _____________ Further Steps _____________ */
