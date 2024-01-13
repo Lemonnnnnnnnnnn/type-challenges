@@ -21,9 +21,19 @@
   > View on GitHub: https://tsch.js.org/20
 */
 
+
 /* _____________ Your Code Here _____________ */
 
-declare function PromiseAll(values: any): any
+// type Push<T extends any[], U> = [...T, U]
+
+// type A<T extends any[], U extends any[]> = T extends [infer P, ...infer rest] ? P extends undefined ? U : A<rest, Push<U, Awaited<P>>> : Promise<U>
+
+// declare function PromiseAll<T extends any[], U extends any[] = []>(values: [...T]): A<T, U>
+
+// 想要分开判断数组中的常量与普通值时，使用 ... 运算符： https://www.typescriptlang.org/docs/handbook/release-notes/typescript-4-0.html#variadic-tuple-types
+declare function PromiseAll<T extends any[]>(values: [...T]): Promise<{
+  [K in keyof T]: Awaited<T[K]>
+}>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
