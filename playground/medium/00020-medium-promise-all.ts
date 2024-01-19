@@ -21,7 +21,6 @@
   > View on GitHub: https://tsch.js.org/20
 */
 
-
 /* _____________ Your Code Here _____________ */
 
 // type Push<T extends any[], U> = [...T, U]
