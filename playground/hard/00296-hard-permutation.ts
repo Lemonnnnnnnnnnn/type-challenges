@@ -16,7 +16,18 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Permutation<T> = any
+/**
+ * @description
+ * 1. T extends never 永远报错
+ * 2. K=T + K extends K 强行遍历
+ */
+
+type Permutation<T, K=T> =
+    [T] extends [never]
+      ? []
+      : K extends K
+        ? [K, ...Permutation<Exclude<T, K>>]
+        : never
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
