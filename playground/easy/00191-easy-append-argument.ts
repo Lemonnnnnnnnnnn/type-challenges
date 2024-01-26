@@ -23,7 +23,7 @@
 
 /* _____________ Your Code Here _____________ */
 
-type AppendArgument<Fn, A> = any
+type AppendArgument<Fn extends (...rest: any[]) => any, A> = Fn extends (...rest: infer P) => infer R ? (...rest: [...P, A]) => R : never
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
