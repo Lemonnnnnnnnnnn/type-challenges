@@ -18,7 +18,13 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Flatten = any
+type Concat<T1 extends any[], T2 extends any[]> = [...T1, ...T2]
+
+type Flatten<T extends any[], K extends any[] = []> = T extends [infer F, ...infer R]
+  ? F extends any[]
+    ? Flatten<R, Concat<K, Flatten<F>>>
+    : Flatten<R, Concat<K, [F]>>
+  : K
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
