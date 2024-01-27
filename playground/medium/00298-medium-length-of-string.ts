@@ -11,8 +11,20 @@
 */
 
 /* _____________ Your Code Here _____________ */
+// prompt：
+// type A = [1, 2, 3]
+// type B = A['length'] // 3
 
-type LengthOfString<S extends string> = any
+// type C = '123'
+// type D = C['length'] // number
+
+type Push<T extends any[], E> = [...T, E]
+
+type LengthOfString<S extends string, K extends any[] = []> = S extends `${infer F}${infer R}`
+  ? F extends string
+    ? LengthOfString<R, Push<K, F>>
+    : K['length']
+  : K['length']
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
