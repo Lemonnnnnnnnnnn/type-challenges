@@ -27,7 +27,15 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Merge<F, S> = any
+type Perfect<T extends Record<string, any>> = {
+  [P in keyof T]: T[P]
+}
+
+type Merge<F extends Record<string, any>, S extends Record<string, any>> = Perfect<{
+  [P in keyof F]: P extends keyof S
+    ? S[P]
+    : F[P]
+} & S>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
