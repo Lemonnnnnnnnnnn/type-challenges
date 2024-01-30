@@ -19,7 +19,15 @@
 
 /* _____________ Your Code Here _____________ */
 
-type StringToUnion<T extends string> = any
+type Push<T extends any[], U> = [...T, U]
+
+type String2Array<T extends string, A extends any[] = []> = T extends `${infer F}${infer R}` ? String2Array<R, Push<A, F>> : A
+
+type TupleToUnion<T extends any[]> = T[number]
+
+type StringToUnion<T extends string> = T extends ''
+  ? never
+  : TupleToUnion<String2Array<T>>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
