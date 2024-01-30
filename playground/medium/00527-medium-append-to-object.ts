@@ -18,8 +18,13 @@
 */
 
 /* _____________ Your Code Here _____________ */
+type Merge<T extends Record<string, any>> = {
+  [P in keyof T]: T[P]
+}
 
-type AppendToObject<T, U, V> = any
+type AppendToObject<T extends Record<string, any>, U extends string, V> = Merge<T & {
+  [P in U]: V
+}>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
