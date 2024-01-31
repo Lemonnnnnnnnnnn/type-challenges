@@ -24,7 +24,37 @@
 
 /* _____________ Your Code Here _____________ */
 
-type KebabCase<S> = any
+// type TransformUpcase<S extends string, Ret extends string = ''> = S extends `${infer F}${infer R}`
+//   ? F extends '-' | '_'
+//     ? `${TransformUpcase<R, `${Ret}${F}`>}`
+//     : F extends Uppercase<F>
+//       ? `${TransformUpcase<R, `${Ret}-${Lowercase<F>}`>}`
+//       : `${TransformUpcase<R, `${Ret}${F}`>}`
+//   : Ret
+
+// type Shift<S extends string> = S extends `${infer F}${infer R}`
+//   ? R extends ''
+//     ? S
+//     : F extends '-'
+//       ? R
+//       : S
+//   : S
+
+// not pass last case
+// type KebabCase<S extends string> = Shift<TransformUpcase<S>>
+
+// ---------------------
+/**
+ * @description 文字描述
+ * 判断第 2-n 字符：
+ * - 如果是小写开头 ：将前一个字母小写【递归处理后续字段】
+ * - 如果是大写开头： 前一个字母小写-【递归处理后续字段】
+ */
+type KebabCase<S extends string> = S extends `${infer F}${infer R}`
+  ? R extends Uncapitalize<R>
+    ? `${Uncapitalize<F>}${KebabCase<R>}`
+    : `${Uncapitalize<F>}-${KebabCase<R>}`
+  : S
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'

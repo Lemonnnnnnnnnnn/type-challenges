@@ -18,11 +18,11 @@
 */
 
 /* _____________ Your Code Here _____________ */
-type Merge<T extends Record<string, any>> = {
+type Perfect<T extends Record<string, any>> = {
   [P in keyof T]: T[P]
 }
 
-type AppendToObject<T extends Record<string, any>, U extends string, V> = Merge<T & {
+type AppendToObject<T extends Record<string, any>, U extends string, V> = Perfect<T & {
   [P in U]: V
 }>
 
