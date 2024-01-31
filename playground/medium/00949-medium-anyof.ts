@@ -19,7 +19,55 @@
 
 /* _____________ Your Code Here _____________ */
 
-type AnyOf<T extends readonly any[]> = any
+// type ValidUndefined<T> = T extends boolean
+//   ? T
+//   : T extends undefined
+//     ? false
+//     : T
+
+// type ValidNull<T> = T extends boolean
+//   ? T
+//   : T extends null
+//     ? false
+//     : T
+
+// type ValidNumber<T> = T extends boolean
+//   ? T
+//   : T extends number
+//     ? T extends 1
+//       ? true
+//       : false
+//     : T
+
+// type ValidString<T> = T extends boolean
+//   ? T
+//   : T extends string
+//     ? T extends ''
+//       ? false
+//       : true
+//     : T
+
+// type ValidRecord<T> = T extends boolean
+//   ? T
+//   : T extends Record<string, any>
+//     ? T extends Record<string, never>
+//       ? false
+//       : true
+//     : T
+
+// type Check<T> = ValidRecord<ValidNull<ValidUndefined<ValidString<ValidNumber<T>>>>>
+
+// type AnyOf<T extends readonly any[]> = T extends [infer F, ...infer R]
+//   ? F extends any[]
+//     ? AnyOf<F> extends true
+//       ? true
+//       : AnyOf<R>
+//     : Check<F> extends true
+//       ? true
+//       : AnyOf<R>
+//   : false
+
+type AnyOf<T extends readonly any[]> = T[number] extends 0 | '' | false | [] | Record<string, never> | undefined | null ? false : true
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
