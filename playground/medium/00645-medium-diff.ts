@@ -12,7 +12,19 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Diff<O, O1> = any
+type Perfect<T extends Record<keyof any, any>> = {
+  [P in keyof T]: T[P]
+}
+
+type MyPick<T extends Record<keyof any, any>, K extends keyof T> = {
+  [P in K]: T[P]
+}
+
+type MyExclude<T, K> = T extends K ? never : T
+
+type MyOmit<T extends Record<keyof any, any>, K extends keyof T> = MyPick<T, MyExclude<keyof T, K>>
+
+type Diff<O extends Record<keyof any, any>, O1 extends Record<keyof any, any>> = Perfect<MyOmit<O, keyof O1> & MyOmit<O1, keyof O>>
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
